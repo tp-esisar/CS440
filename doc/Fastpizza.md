@@ -1,61 +1,59 @@
 #Fastpizza
-*Application pour gérer l’ensemble des pizzerias*
+*Application pour gÃ©rer lâ€™ensemble des pizzerias*
 
 ##Pizzeria
-- Numéro unique
+- NumÃ©ro unique
 - Nom
-- Adresse postale (numéro de rue, rue, code postal, ville)
-- Responsable gérant 
-- Liste employés
-- Liste des variétés de pizza gérées
+- Adresse postale (numÃ©ro de rue, rue, code postal, ville)
+- Responsable gÃ©rant 
+- Liste employÃ©s
+- Liste des variÃ©tÃ©s de pizza gÃ©rÃ©es
 
-##Responsable gérant
-- Affecté à une seule pizzeria <- employé de la pizzeria
+##Responsable gÃ©rant
+- AffectÃ© Ã  une seule pizzeria <- employÃ© de la pizzeria
 
 ##Pizza
-- Plusieurs variété : reine, marguerite, calzone …
-	- Ensemble d’ingrédients de base
-- Taille : grande, moyenne, mini
+- Plusieurs variÃ©tÃ©Â : reine, marguerite, calzone â€¦
+	- Ensemble dâ€™ingrÃ©dients de base
+- TailleÂ : grande, moyenne, mini
 - Prix
-- Ingrédient optionnel (max d’ingrédients en fonction de la taille, respectivement, 2, 4 ou +?) prix d’un ingrédient optionnel : 2€
+- IngrÃ©dient optionnel (max dâ€™ingrÃ©dients en fonction de la taille, respectivement, 2, 4 ou +?) prix dâ€™un ingrÃ©dient optionnelÂ : 2â‚¬
 
 ##Livreurs
-- Affecté à une seule pizzeria <- employé de la pizzeria
-- Badge numéroté (numéro de la pizzeria)
+- AffectÃ© Ã  une seule pizzeria <- employÃ© de la pizzeria
+- Badge numÃ©rotÃ© (numÃ©ro de la pizzeria)
 - Nom
-- Prénom
+- PrÃ©nom
 - Date de naissance
 - Num tel
 - Adresse mail
 - Adresse postale (num rue, rue, code postal, ville)
-- Type de permis véhicule (B, BSR, …)
+- Type de permis vÃ©hicule (B, BSR, â€¦)
 
 ##Client
-- Numéro unique par pizzeria
+- NumÃ©ro unique par pizzeria
 - Nom 
-- Prénom
+- PrÃ©nom
 - Num tel
 - @ mail
 - Adresse postale (num rue, rue, code postal, ville)
 - Commande
-	- Numéro de commande
+	- NumÃ©ro de commande
 	- Lignes de commande
-		- Variété pizza
-		- Taille pizza
-		- (Ingrédients optionnels)
+		- pizza
 		- Nombre de cette pizza
 	- Prix
-	- Heure de livraison désirée
+	- Heure de livraison dÃ©sirÃ©e
 
 ##Livraison
 - Livreur
-- Véhicule de livraison
+- VÃ©hicule de livraison
 - Une ou plusieurs commandes
-- Heure de départ
+- Heure de dÃ©part
 - Heure de retour
 
-##Véhicule de livraison
-- Plaque d’immatriculation
-- Type (B : voiture, BSR : mobilette, …)
+##VÃ©hicule de livraison
+- Plaque dâ€™immatriculation
+- Type (BÂ : voiture, BSRÂ : mobilette, â€¦)
 
 
