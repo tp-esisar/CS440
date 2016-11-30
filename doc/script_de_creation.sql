@@ -80,11 +80,14 @@ CREATE TABLE Livraison (
 
 CREATE TABLE Commande (
   idCommande NUMBER,
+  idClient NUMBER,
+  idPizzeria NUMBER,
   idLivraison NUMBER,
   heurePrevue DATETIME,
   etatCommande NUMBER,
   prixTotal NUMBER(*,2),
   PRIMARY KEY (idCommande),
+  FOREIGN KEY (idClient, idPizzeria) REFERENCES Client(idClient, idPizzeria),
   FOREIGN KEY (idLivraison) REFERENCES Livraison(idLivraison)
 );
 
