@@ -37,10 +37,10 @@ INSERT INTO PERSONNE VALUES (35, 'Jake','Smith', 23613640, 't.rich@www.fp', 'cit
 INSERT INTO PERSONNE VALUES (36, 'Zemini','Boeuf', 23613640, 't.rich@www.fp', 'city one', 30123, 'rue desportes',172);
 
 --ajouter pizzeria
-INSERT INTO PIZZERIA VALUES (2,15, 'DOS SANTOS', 'Chabeuil',26100, 'rue coulumiers', 17);
-INSERT INTO PIZZERIA VALUES (3,16, 'DOS SANTOS', 'Chabeuil',26100, 'rue coulumiers', 17);
-INSERT INTO PIZZERIA VALUES (4,25, 'Chenielli Mateo', 'Chabeuil',26100, 'rue coulumiers', 17);
-INSERT INTO PIZZERIA VALUES (5,5, 'DOS SANTOS', 'Chabeuil',26100, 'rue coulumiers', 17);
+INSERT INTO PIZZERIA VALUES (2,15, 'DOS SANTOS', 'Chabeuil',26100, 'rue coulumiers', 17,0);
+INSERT INTO PIZZERIA VALUES (3,16, 'DOS SANTOS', 'Chabeuil',26100, 'rue coulumiers', 17,0);
+INSERT INTO PIZZERIA VALUES (4,25, 'Chenielli Mateo', 'Chabeuil',26100, 'rue coulumiers', 17,0);
+INSERT INTO PIZZERIA VALUES (5,5, 'DOS SANTOS', 'Chabeuil',26100, 'rue coulumiers', 17,0);
 
 --permis
 INSERT INTO PERMIS VALUES ('AM');
