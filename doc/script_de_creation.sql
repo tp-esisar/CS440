@@ -13,7 +13,7 @@ CREATE TABLE Personne (
   adresseMail VARCHAR2(50),
   ville VARCHAR2(50),
   codePostal NUMBER,
-  rue VARCHAR2(50),
+  rue VARCHAR2(100),
   numeroRue NUMBER,
   PRIMARY KEY(idPersonne)
 );
@@ -24,7 +24,7 @@ CREATE TABLE Pizzeria (
   nom VARCHAR2(50),
   ville VARCHAR2(50),
   codePostal NUMBER,
-  rue VARCHAR2(50),
+  rue VARCHAR2(100),
   numeroRue NUMBER,
   PRIMARY KEY (idPizzeria),
   FOREIGN KEY (idGerant) REFERENCES Personne(idPersonne)
@@ -60,7 +60,7 @@ CREATE TABLE Livreur (
   idBadge NUMBER,
   idPizzeria NUMBER,
   idPersonne NUMBER,
-  DATETIMENaissance DATETIME,
+  dateNaissance DATETIME,
   PRIMARY KEY (idBadge, idPizzeria),
   FOREIGN KEY (idPizzeria) REFERENCES Pizzeria(idPizzeria),
   FOREIGN KEY (idPersonne) REFERENCES Personne(idPersonne)
@@ -71,8 +71,6 @@ CREATE TABLE Livraison (
   idPlaque VARCHAR2(50),
   idPizzeria NUMBER,
   idBadge NUMBER,
-  heureDepart DATETIME,
-  heureArrivee DATETIME,
   PRIMARY KEY(idLivraison),
   FOREIGN KEY (idBadge, idPizzeria) REFERENCES Livreur(idBadge, idPizzeria),
   FOREIGN KEY (idPlaque) REFERENCES VehiculeLivraison(idPlaque)
@@ -84,6 +82,8 @@ CREATE TABLE Commande (
   idPizzeria NUMBER,
   idLivraison NUMBER,
   heurePrevue DATETIME,
+  heureDepart DATETIME,
+  heureArrivee DATETIME,
   etatCommande NUMBER,
   prixTotal NUMBER(*,2),
   PRIMARY KEY (idCommande),
@@ -105,6 +105,7 @@ CREATE TABLE Pizza (
   idCommande NUMBER,
   idVariete  VARCHAR2(50),
   nbPizza NUMBER,
+  prixPizza NUMBER(*,2),
   PRIMARY KEY(idPizza, idCommande),
   FOREIGN KEY (idVariete) REFERENCES VarietePizza(idVariete),
   FOREIGN KEY (idCommande) REFERENCES Commande(idCommande)
