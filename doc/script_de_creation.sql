@@ -2,6 +2,7 @@ CREATE TABLE VarietePizza (
   idVariete VARCHAR2(50),
   taille NUMBER,
   prix NUMBER(*,2),
+  suprime NUMBER(1),
   PRIMARY KEY (idVariete)
 );
 
@@ -20,22 +21,25 @@ CREATE TABLE Personne (
 
 CREATE TABLE Pizzeria (
   idPizzeria NUMBER,
-  idGerant NUMBER,
+  idGerant NUMBER UNIQUE,
   nom VARCHAR2(50),
   ville VARCHAR2(50),
   codePostal NUMBER,
   rue VARCHAR2(100),
   numeroRue NUMBER,
+  suprime NUMBER(1),
   PRIMARY KEY (idPizzeria),
   FOREIGN KEY (idGerant) REFERENCES Personne(idPersonne)
 );
   
 CREATE TABLE IngredientOptionnels (
   idIngredient VARCHAR2(50),
+  disponible NUMBER(1),
   PRIMARY KEY(idIngredient)
 );
 
 CREATE TABLE Permis (
+-- type du permis AM, A1, A2, A, B1, B, C1, C, D1, D, BE, C1E, CE, D1E, DE
   typePermis VARCHAR2(50),
   PRIMARY KEY(typePermis)
 );
@@ -43,6 +47,7 @@ CREATE TABLE Permis (
 CREATE TABLE VehiculeLivraison (
   idPlaque VARCHAR2(50),
   typePermis VARCHAR2(50),
+  suprime NUMBER(1),
   PRIMARY KEY (idPlaque),
   FOREIGN KEY (typePermis) REFERENCES Permis(typePermis)
 );
@@ -61,6 +66,7 @@ CREATE TABLE Livreur (
   idPizzeria NUMBER,
   idPersonne NUMBER,
   dateNaissance DATE,
+  suprime NUMBER(1),
   PRIMARY KEY (idBadge, idPizzeria),
   FOREIGN KEY (idPizzeria) REFERENCES Pizzeria(idPizzeria),
   FOREIGN KEY (idPersonne) REFERENCES Personne(idPersonne)
