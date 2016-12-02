@@ -1,9 +1,9 @@
 CREATE TABLE VarietePizza (
-  idVariete VARCHAR2(50) NOT NULL,
+  idVariete VARCHAR2(50),
   taille NUMBER NOT NULL,
-  prix NUMBER(*,2),
-  PRIMARY KEY (idVariete)
-  --CONSTRAINT VarietePizza_taille CHECK(taille > 0)
+  prix NUMBER(*,2) NOT NULL,
+  CONSTRAINT pkVarietePizza PRIMARY KEY (idVariete),
+  CONSTRAINT VarietePizza_Taille CHECK(taille>0 AND taille<4)
 );
 
 CREATE TABLE Personne (
@@ -16,10 +16,10 @@ CREATE TABLE Personne (
   codePostal NUMBER NOT NULL,
   rue VARCHAR2(100) NOT NULL,
   numeroRue NUMBER NOT NULL,
-  PRIMARY KEY(idPersonne)
-  --CONSTRAINT Personne_numeroRue CHECK (numeroRue>0),
-  --CONSTRAINT Personne_codePostal CHECK (codePostal BETWEEN 01000 AND 99999),
-  --CONSTRAINT Personne_numTelephone CHECK (numTelephone BETWEEN 0100000000 AND 0999999999)
+  CONSTRAINT pkPersonne PRIMARY KEY(idPersonne),
+  CONSTRAINT Personne_numTelephone CHECK (numTelephone BETWEEN 0100000000 AND 0999999999),
+  CONSTRAINT Personne_codePostal CHECK (codePostal BETWEEN 01000 AND 99999),
+  CONSTRAINT Personne_numeroRue CHECK (numeroRue>0)
 );
 
 CREATE TABLE Pizzeria (
@@ -31,118 +31,114 @@ CREATE TABLE Pizzeria (
   rue VARCHAR2(100) NOT NULL,
   numeroRue NUMBER NOT NULL,
   supprime NUMBER(1) NOT NULL,
-  PRIMARY KEY (idPizzeria),
-  FOREIGN KEY (idGerant) REFERENCES Personne(idPersonne)
-  --CONSTRAINT Personne_numeroRue CHECK(numeroRue>0),
-  --CONSTRAINT Personne_codePostal CHECK(codePostal BETWEEN 01000 AND 99999),
+  CONSTRAINT pk_Pizzeria PRIMARY KEY (idPizzeria),
+  CONSTRAINT fk_Gerant_Pizzeria FOREIGN KEY (idGerant) REFERENCES Personne(idPersonne),
+  CONSTRAINT Pizzeria_codePostal CHECK(codePostal BETWEEN 01000 AND 99999),
+  CONSTRAINT Pizzeria_numeroRue CHECK(numeroRue>0)
 );
   
 CREATE TABLE IngredientOptionnels (
-  idIngredient VARCHAR2(50) NOT NULL,
+  idIngredient VARCHAR2(50),
   disponible NUMBER(1) NOT NULL,
-  PRIMARY KEY(idIngredient)
+  CONSTRAINT pk_ingredientsOptionnels PRIMARY KEY(idIngredient)
 );
 
 CREATE TABLE Permis (
--- type du permis AM, A1, A2, A, B1, B, C1, C, D1, D, BE, C1E, CE, D1E, DE
-  typePermis VARCHAR2(50) NOT NULL,
-  PRIMARY KEY(typePermis)
-  --CONSTRAINT Permis_typePermis CHECK (typePermis IN ('AM', 'A1', 'A2', 'A', 'B1', 'B', 'C1', 'C', 'D1', 'D', 'BE', 'C1E', 'CE', 'D1E', 'DE')
+  typePermis VARCHAR2(50),
+  CONSTRAINT pk_permis PRIMARY KEY(typePermis),
+  CONSTRAINT Permis_typePermis CHECK (typePermis IN ('AM', 'A1', 'A2', 'A', 'B1', 'B', 'C1', 'C', 'D1', 'D', 'BE', 'C1E', 'CE', 'D1E', 'DE'))
 );
 
 CREATE TABLE VehiculeLivraison (
-  idPlaque VARCHAR2(50) NOT NULL,
+  idPlaque VARCHAR2(50),
   idpizzeria NUMBER NOT NULL,
   typePermis VARCHAR2(50) NOT NULL,
   supprime NUMBER(1),
-  PRIMARY KEY (idPlaque),
-  FOREIGN KEY (typePermis) REFERENCES Permis(typePermis),
-  FOREIGN KEY (idpizzeria) REFERENCES Pizzeria(idpizzeria)
-  --CONSTRAINT Permis_typePermis CHECK (typePermis IN ('AM', 'A1', 'A2', 'A', 'B1', 'B', 'C1', 'C', 'D1', 'D', 'BE', 'C1E', 'CE', 'D1E', 'DE')
+  CONSTRAINT pk_Vehicule PRIMARY KEY (idPlaque),
+  CONSTRAINT fk_typePermis_Vehicule FOREIGN KEY (typePermis) REFERENCES Permis(typePermis),
+  CONSTRAINT pk_idPizzeria_Vehicule FOREIGN KEY (idpizzeria) REFERENCES Pizzeria(idpizzeria)
 );
 
 CREATE TABLE Client (
-  idClient NUMBER NOT NULL,
-  idPizzeria NUMBER NOT NULL,
+  idClient NUMBER,
+  idPizzeria NUMBER,
   idPersonne NUMBER NOT NULL,
-  PRIMARY KEY (idClient, idPizzeria),
-  FOREIGN KEY (idPizzeria) REFERENCES Pizzeria(idPizzeria),
-  FOREIGN KEY (idPersonne) REFERENCES Personne(idPersonne)
+  CONSTRAINT pk_client PRIMARY KEY (idClient, idPizzeria),
+  CONSTRAINT fk_idPizzeria_client FOREIGN KEY (idPizzeria) REFERENCES Pizzeria(idPizzeria),
+  CONSTRAINT fk_idPersonne_client FOREIGN KEY (idPersonne) REFERENCES Personne(idPersonne)
 );
 
 CREATE TABLE Livreur (
-  idBadge NUMBER NOT NULL,
-  idPizzeria NUMBER NOT NULL,
+  idBadge NUMBER,
+  idPizzeria NUMBER,
   idPersonne NUMBER NOT NULL,
   dateNaissance DATE NOT NULL,
   supprime NUMBER(1),
-  PRIMARY KEY (idBadge, idPizzeria),
-  FOREIGN KEY (idPizzeria) REFERENCES Pizzeria(idPizzeria),
-  FOREIGN KEY (idPersonne) REFERENCES Personne(idPersonne)
+  CONSTRAINT pk_livreur PRIMARY KEY (idBadge, idPizzeria),
+  CONSTRAINT fk_idPizzeria_livreur FOREIGN KEY (idPizzeria) REFERENCES Pizzeria(idPizzeria),
+  CONSTRAINT fk_idPersonne_livreur FOREIGN KEY (idPersonne) REFERENCES Personne(idPersonne)
 );
 
 CREATE TABLE Livraison (
-  idLivraison NUMBER NOT NULL,
+  idLivraison NUMBER,
   idPlaque VARCHAR2(50) NOT NULL,
   idPizzeria NUMBER NOT NULL,
   idBadge NUMBER NOT NULL,
-  PRIMARY KEY(idLivraison),
-  FOREIGN KEY (idBadge, idPizzeria) REFERENCES Livreur(idBadge, idPizzeria),
-  FOREIGN KEY (idPlaque) REFERENCES VehiculeLivraison(idPlaque)
+  CONSTRAINT pk_livraison PRIMARY KEY(idLivraison),
+  CONSTRAINT fk_idBadge_livraison FOREIGN KEY (idBadge, idPizzeria) REFERENCES Livreur(idBadge, idPizzeria),
+  CONSTRAINT fk_idPlaque_livraison FOREIGN KEY (idPlaque) REFERENCES VehiculeLivraison(idPlaque)
 );
 
 CREATE TABLE Commande (
-  idCommande NUMBER NOT NULL,
+  idCommande NUMBER,
   idClient NUMBER NOT NULL,
   idPizzeria NUMBER NOT NULL,
-  idLivraison NUMBER NOT NULL,
+  idLivraison NUMBER,
   heurePrevue DATE,
   heureDepart DATE,
   heureArrivee DATE,
   etatCommande NUMBER NOT NULL,
-  prixTotal NUMBER(*,2) NOT NULL,
-  PRIMARY KEY (idCommande),
-  FOREIGN KEY (idClient, idPizzeria) REFERENCES Client(idClient, idPizzeria),
-  FOREIGN KEY (idLivraison) REFERENCES Livraison(idLivraison)
-  --CONSTRAINT Commande_heureArrivee_heureDepart CHECK (heureArrivee > heureDepart)
+  CONSTRAINT pk_commande PRIMARY KEY (idCommande),
+  CONSTRAINT fk_client_commande FOREIGN KEY (idClient, idPizzeria) REFERENCES Client(idClient, idPizzeria),
+  CONSTRAINT fk_livraison_commande FOREIGN KEY (idLivraison) REFERENCES Livraison(idLivraison)
 );
 
 CREATE TABLE PossessionPermis (
-  typePermis VARCHAR2(50) NOT NULL,
-  idPizzeria NUMBER NOT NULL,
-  idBadge NUMBER NOT NULL,
-  PRIMARY KEY (typePermis, idBadge, idPizzeria),
-  FOREIGN KEY (idBadge, idPizzeria) REFERENCES Livreur(idBadge, idPizzeria),
-  FOREIGN KEY (typePermis) REFERENCES Permis(typePermis)
-  --CONSTRAINT Permis_typePermis CHECK (typePermis IN ('AM', 'A1', 'A2', 'A', 'B1', 'B', 'C1', 'C', 'D1', 'D', 'BE', 'C1E', 'CE', 'D1E', 'DE')
+  typePermis VARCHAR2(50),
+  idPizzeria NUMBER,
+  idBadge NUMBER,
+  CONSTRAINT pk_possessionPermis PRIMARY KEY (typePermis, idBadge, idPizzeria),
+  CONSTRAINT fk_livreur_possessionPermis FOREIGN KEY (idBadge, idPizzeria) REFERENCES Livreur(idBadge, idPizzeria),
+  CONSTRAINT fk_permis_possessionPermis FOREIGN KEY (typePermis) REFERENCES Permis(typePermis)
 );
 
 CREATE TABLE Pizza (
-  idPizza NUMBER NOT NULL,
-  idCommande NUMBER NOT NULL,
+  idPizza NUMBER,
+  idCommande NUMBER,
   idVariete  VARCHAR2(50) NOT NULL,
   nbPizza NUMBER NOT NULL,
   prixPizza NUMBER(*,2) NOT NULL,
-  PRIMARY KEY(idPizza, idCommande),
-  FOREIGN KEY (idVariete) REFERENCES VarietePizza(idVariete),
-  FOREIGN KEY (idCommande) REFERENCES Commande(idCommande)
+  CONSTRAINT pk_pizza PRIMARY KEY(idPizza, idCommande),
+  CONSTRAINT fk_idVariete_pizza FOREIGN KEY (idVariete) REFERENCES VarietePizza(idVariete),
+  CONSTRAINT fk_idCommande_pizza FOREIGN KEY (idCommande) REFERENCES Commande(idCommande),
+  CONSTRAINT pizza_nbPizza CHECK (nbPizza>0)
 );
 
 CREATE TABLE OptionnelPizza (
-  idPizza NUMBER NOT NULL,
-  idIngredient VARCHAR2(50) NOT NULL,
-  idCommande NUMBER NOT NULL,
-  PRIMARY KEY (idPizza, idIngredient, idCommande),
-  FOREIGN KEY (idPizza, idCommande) REFERENCES Pizza(idPizza, idCommande),
-  FOREIGN KEY (idIngredient) REFERENCES IngredientOptionnels(idIngredient)
+  idPizza NUMBER,
+  idIngredient VARCHAR2(50),
+  idCommande NUMBER,
+  CONSTRAINT pk_optionnelPizza PRIMARY KEY (idPizza, idIngredient, idCommande),
+  CONSTRAINT fk_pizza_optionnelPizza FOREIGN KEY (idPizza, idCommande) REFERENCES Pizza(idPizza, idCommande),
+  CONSTRAINT fk_ingredients_optionnelPizza FOREIGN KEY (idIngredient) REFERENCES IngredientOptionnels(idIngredient)
 );
 
 CREATE TABLE PizzaProduite (
-  idPizzeria NUMBER NOT NULL,
-  idVariete VARCHAR2(50) NOT NULL,
-  PRIMARY KEY (idPizzeria, idVariete),
-  FOREIGN KEY (idPizzeria) REFERENCES Pizzeria(idPizzeria),
-  FOREIGN KEY (idVariete) REFERENCES VarietePizza(idVariete)
+  idPizzeria NUMBER,
+  idVariete VARCHAR2(50),
+  CONSTRAINT pk_pizzaProduite PRIMARY KEY (idPizzeria, idVariete),
+  CONSTRAINT fk_idPizzeria_pizzaProduite FOREIGN KEY (idPizzeria) REFERENCES Pizzeria(idPizzeria),
+  CONSTRAINT fk_idVariete_pizzaProduite FOREIGN KEY (idVariete) REFERENCES VarietePizza(idVariete)
 );
 
 
